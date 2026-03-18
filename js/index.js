@@ -1,12 +1,57 @@
-// TODO: TIL 폼 등록 기능을 구현하세요
-// 1. 폼 요소와 목록 요소를 querySelector로 선택합니다.
-// 2. 폼의 submit 이벤트를 감지하여 새 TIL 항목을 목록에 추가합니다.
-
 const tilForm = document.querySelector("#til-form");
 const tilList = document.querySelector("#til-list");
 
 tilForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  // TODO: 입력값을 가져와서 새 TIL 항목을 만들어 목록에 추가하세요
+  const date = document.querySelector("#til-date").value;
+  const title = document.querySelector("#til-title").value;
+  const content = document.querySelector("#til-content").value;
+
+  if (!date || !title || !content) {
+    return;
+  }
+
+  const article = document.createElement("article");
+  article.classList.add("til-item");
+
+  const timeEl = document.createElement("time");
+  timeEl.setAttribute("datetime", date);
+  timeEl.textContent = date;
+
+  const h3 = document.createElement("h3");
+  h3.textContent = title;
+
+  const p = document.createElement("p");
+  p.textContent = content;
+
+  article.appendChild(timeEl);
+  article.appendChild(h3);
+  article.appendChild(p);
+
+  tilList.prepend(article);
+
+  tilForm.reset();
+});
+
+// 갤러리 이미지 모달
+const modal = document.querySelector("#image-modal");
+const modalImage = document.querySelector("#modal-image");
+const modalClose = document.querySelector(".modal-close");
+
+document.querySelector(".gallery-grid").addEventListener("click", function (event) {
+  if (event.target.tagName !== "IMG") return;
+  modalImage.src = event.target.src;
+  modalImage.alt = event.target.alt;
+  modal.classList.add("active");
+});
+
+modalClose.addEventListener("click", function () {
+  modal.classList.remove("active");
+});
+
+modal.addEventListener("click", function (event) {
+  if (event.target === modal) {
+    modal.classList.remove("active");
+  }
 });
